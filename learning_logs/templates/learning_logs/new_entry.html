@@ -1,0 +1,18 @@
+{% extends "learning_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+  <h3><a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a></h3>
+{% endblock page_header %}
+
+{% block content %}
+{# aca abajo aparece el method post, cuando se entra al link desde topic.html el metodo es get y cuando se oprime el boton submit se envia el form con la informacion completada denuevo a new_entry pero con el metodo post #}
+  <p class="lead">Add a new entry:</p>
+  <form class="form" action="{% url 'learning_logs:new_entry' topic.id %}" method='post'> {# aca tambien es manda el id para usarlo en las views.py para identificar el topic#}
+    {% csrf_token %}  {# algo de seguridad de Django #}
+    {% bootstrap_form form %}
+    {% buttons %}
+      <button class="btn btn-primary" name="submit">Add entry</button>
+    {% endbuttons %}
+  </form>
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'learning_logs/base.html' %}
+
+{% block content %}
+
+  <p>Topic: {{topic}}</p>  {# se usa topic ya que esta en el diccionario (context) que mandamos #}
+
+  <p>Entries:</p>
+  <p>
+    {#topic.id le manda el id (generado automaticamente por django y conseguido con el metodo .id) al path en urls.py#}
+    <a href="{% url 'learning_logs:new_entry' topic.id %}">Add new entry</a>
+  </p>
+  <ul>  {# esto hace una bullet list con cada item entre los li de abajo#}
+  {%for entry in entries %}
+    <li>
+      <p>{{ entry.date_added|date:'M d, Y H:i' }}</p> {# el pipe | hace que se modifiquen datos del template, en este caso para que el timestamp tenga el formato January 1, 2018 23:00 #}
+      <p>{{ entry.text|linebreaks }}</p>  {# |linebreakes hace que los textos largos tengan un formato lindo y que entre todo bien o algo asi #}
+      <p>
+        <a href="{% url 'learning_logs:edit_entry' entry.id %}">Edit entry</a> - {# aca agarro el id del entry y lo mando en la request para que lo reciba en urls.py#}
+        <a href="{% url 'learning_logs:delete_entry' entry.id %}">Delete entry</a>
+      </p>
+    </li>
+  {% empty %} {# si no hay entries muestra lo de abajo #}
+    <li> There are no entries for this topic yet.</li>
+  {% endfor %}
+  </ul>
+
+
+{% endblock content %}

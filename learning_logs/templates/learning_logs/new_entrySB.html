@@ -1,0 +1,13 @@
+{% extends "learning_logs/base.html" %}
+{# PAG 419 APROX #}
+{% block content %}
+{# topic.id le manda el id (generado automaticamente por django y conseguido con el metodo .id) al path en urls.py. #}
+  <p><a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a></p> {# un link al topic, por eso necesito el topic id#}
+{# aca abajo aparece el method post, cuando se entra al link desde topic.html el metodo es get y cuando se oprime el boton submit se envia el form con la informacion completada denuevo a new_entry pero con el metodo post #}
+  <p>Add a new entry:</p>
+  <form action="{% url 'learning_logs:new_entry' topic.id %}" method='post'> {# aca tambien es manda el id para usarlo en las views.py para indentificar el topic#}
+    {% csrf_token %} {# seguridad de django #}
+    {{ form.as_p }} {# forma simple de mostrar un form, con .as_p se muestran los campos en formato de parrafo #}
+    <button name="submit">Add entry</button>
+  </form>
+{% endblock content %}

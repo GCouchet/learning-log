@@ -1,0 +1,11 @@
+{% extends "learning_logs/base.html" %}
+
+{% block content %}
+  <p>Add a new topic:</p>
+  {# el "action" le indica al browser a donde mandar la informacion que recibe el form #}
+  <form action="{% url 'learning_logs:new_topic' %}" method='post'> {# en este caso se vuelve a mandar a new_topic pero con el metodo post (ver views.py) #}
+    {% csrf_token %}  {# algo de seguridad de Django #}
+    {{ form.as_p }}  {# forma simple de mostrar en pantalla todos los campos a llenar, .as_p muestra dichos campos en forma de parrafos #}
+    <button name="submit">Add topic</button>  {# django no crea boton submit asi que hay que hacerlo #}
+  </form>
+{% endblock content %}

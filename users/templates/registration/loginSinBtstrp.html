@@ -1,0 +1,13 @@
+{% extends "learning_logs/base.html" %}
+{% block content %}
+  {% if form.errors %}  {# si hay un error en el form avisa que le pifio #}
+    <p>Your username and password didn't match. Please try again.</p>  {# django muestra un mensaje por defecto si le erra en el usuario o pass #}
+  {% endif %}                                                      {# o sea, en este caso aparecerian dos mensajes, el de ahi arriba y el de django #}
+  <form method="post" action="{% url 'users:login' %}">  {# necesito que la view procese la informacion de este form, por eso el argumento 'action' es la pagina url#}
+    {% csrf_token %}
+    {{ form.as_p }}  {# el login view manda una form al template y aca lo muestra #}
+    <button name="submit">Log in</button>
+    <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />  {# next es un elemento 'hidden' de form en el que el argumento 'value' #}
+  </form>                                                                      {# le dice a django a donde redirigir al usuario dspues de logearse #}
+
+{% endblock content %}

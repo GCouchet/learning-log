@@ -1,0 +1,19 @@
+{% extends "learning_logs/base.html" %}
+{% load bootstrap4 %}  {# se cargan los tags de bootstrap4 #}
+
+{% block page_header %}
+  <h2>Log into your account.</h2>
+{% endblock page_header %}
+
+{% block content %}
+  <form class="form" action="{% url 'users:login' %}" method="post">  {# aca se agrega el class=form y abajo se usa el tag bootstrap_form #}
+    {% csrf_token %}  {# se borro el bloque if form.errors porque bootstrap4 maneja los errores solo #}
+    {% bootstrap_form form %} {# esto reemplaza el form.as_p, claramente de bootstrap4 #}
+    {% buttons %}  {# otro tag de bootstrap4 que le pone onda a los botones #}
+      <button class="btn btn-primary" name="submit">Log in</button>
+    {% endbuttons %}
+
+    <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />  {# next es un elemento 'hidden' de form en el que el argumento 'value' #}
+  </form>                                                                      {# le dice a django a donde redirigir al usuario dspues de logearse #}
+
+{% endblock content %}

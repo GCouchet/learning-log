@@ -1,0 +1,60 @@
+{% load bootstrap4 %}  {# aca se carga la coleccion de templates que tiene bootstrap4 #}
+
+<!DOCTYPE html>  {# se declara que es un archvo html ... #}
+<html lang="en">  {# ...escrito en ingles #}
+<head>  {# los archivos html se divien en head y body, el head le dice al browser lo que necesita para mostrar bien la pagina #}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Learning Log</title>  {# es lo que se muestra en la pestaña #}
+
+  {% bootstrap_css %}  {# ambas lineas son cosas que trae bootstrap4 para que se vea mejor, ponele #}
+  {% bootstrap_javascript jquery='full' %}  {# se ponen aca para usarlas en el body, creo #}
+</head>
+<body>  {# el body contiene lo que el usuario ve en la pagina #}
+  {# se empieza escribiendo la barra de navegacion con nav, los que estan en verde son selectors, modifican la apariencia de items #}
+  <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border"> {# en este caso le pone color al background, hace que se vea todo en hilera, que haya un margen, etc #}
+    <a class="navbar-brand" href="{% url 'learning_logs:index' %}">Learning Log</a>  {# como esta primero va a ir arriba a la izquierda, este selector hace que resalte un toque del resto #}
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+        aria-laber="Toggle navigation">  {# todo esto hace que si se achica la ventana o se abre desde un dispositivo con pantalla chica los items de la barra desaparezcan y genera con boton con dichos items desplegables #}
+        <span class="navbar-toggler-icon"></span></button>
+    {# div es abreviacion de division, una pagina se crea dividiendola en secciones y definiendole a cada una cierta apariencia y comportamiento #}
+    {# en este caso el div es para definir el boton con items desplegables cuando la pantalla sea mas chica y no entren todos los links en hilera #}
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">    {# bootstrap4 define los items de la barra de navegacion en ul (unerdered list), los selectors no se exactamente que hacen #}
+        <li class="nav-item">             {# todo bijuterie para agregar el link a topics #}
+        <a class="nav-link" href="{% url 'learning_logs:topics' %}">Topics</a></li>
+      </ul>
+      <ul class="navbar-nav ml-auto">  {# empiezan los set de links de users #}
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <span class="navbar-text">{{ user.username }}</span> {# span es como div, pero para partes mas chicas, en este caso solo para que el texto no se vea como un link #}
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:logout' %}">Log out</a>  {# el selector le da pinta de link y se agrega el link #}
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:register' %}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:login' %}">Log in</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  {# el main se usa para la parte mas importante del body #}
+  <main role="main" class="container">  {# se le asigna el selector de bootstrap4 container (un metodo simple para agrupar elementos) #}
+    {# en este container se ubican dos div #}
+    <div class="pb-2 mb-2 border-bottom">  {# en esta division se colocaran los titulos, los selectores son para darle espacio entre el titulo y el borde, entre dicho borde y los otros elementos y por ultimo se le asigna que haya borde abajo solamente #}
+      {% block page_header %}{% endblock page_header %}
+    </div>
+    <div>  {# aca se deja en blanco para que cada pagina tenga su propia apariencia #}
+      {% block content %}{% endblock content %}
+    </div>
+  </main>
+
+</body>
+
+</html>
